@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Shengmilo 全系产品报价表</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #007AFF;
+            --secondary: #34C759;
+            --background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
+            --card-radius: 24px;
+            --shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            background: var(--background);
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .product-image {
+            width: 280px;
+            height: 200px;
+            background: #f1f3f5 url('placeholder.jpg') center/cover;
+            border-radius: 16px;
+            margin-right: 28px;
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .model-info {
+            flex-grow: 1;
+        }
+
+        .model-name {
+            font-size: 2.2em;
+            color: #1d1d1f;
+            margin: 0 0 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .metric-card {
+            padding: 20px;
+            background: rgba(0,122,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(0,122,255,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: metricEntry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,122,255,0.1);
+        }
+
+        .metric-icon {
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin: 8px 0;
+            position: relative;
+        }
+
+        .metric-value::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 12px;
+        }
+
+        .price-section {
+            background: linear-gradient(135deg, #007AFF11 0%, #34C75911 100%);
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 24px;
+            transition: transform 0.3s;
+        }
+
+        .full-specs {
+            margin-top: 28px;
+            border-top: 1px solid #eee;
+            padding-top: 24px;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .spec-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-table td:first-child {
+            width: 35%;
+            color: #666;
+        }
+
+        .export-btn {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,122,255,0.2);
+        }
+
+        @keyframes metricEntry {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .card-header {
+                flex-direction: column;
+            }
+            .product-image {
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- S600 -->
+        <div class="product-card">
+            <button class="export-btn" onclick="exportPDF()"><i class="fas fa-download"></i> 导出PDF</button>
+            <div class="card-header">
+                <div class="product-image"></div>
+                <div class="model-info">
+                    <h1 class="model-name">S600</h1>
+                    <div class="metric-grid">
+                        <div class="metric-card" style="animation-delay: 0.2s;">
+                            <i class="metric-icon fas fa-tachometer-alt"></i>
+                            <div class="metric-value">45 km/h</div>
+                            <div class="metric-label">最高车速</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.4s;">
+                            <i class="metric-icon fas fa-weight-hanging"></i>
+                            <div class="metric-value">150 kg</div>
+                            <div class="metric-label">最大载重</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.6s;">
+                            <i class="metric-icon fas fa-battery-full"></i>
+                            <div class="metric-value">48V 17.5Ah</div>
+                            <div class="metric-label">电池容量</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.8s;">
+                            <i class="metric-icon fas fa-road"></i>
+                            <div class="metric-value">30-40km</div>
+                            <div class="metric-label">纯电续航</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <h3>阶梯报价 (EXW不含税)</h3>
+                <p>50-300台: ¥5200/台</p>
+                <p>300-1000台: ¥5000/台</p>
+                <p>1000+台: ¥4900/台</p>
+            </div>
+
+            <div class="full-specs">
+                <table class="spec-table">
+                    <tr><td>装柜数量 (20/40/40HQ)</td><td>83/166/200</td></tr>
+                    <tr><td>净重/毛重</td><td>36kg/42kg</td></tr>
+                    <tr><td>外箱尺寸</td><td>1520×310×820mm</td></tr>
+                    <tr><td>电机功率</td><td>750W×2 (瞬时1200W×2)</td></tr>
+                    <tr><td>充电时间</td><td>8小时 (220V)</td></tr>
+                    <tr><td>制动系统</td><td>液压制动 (2-5m制动距离)</td></tr>
+                    <tr><td>防水等级</td><td>IP45</td></tr>
+                    <tr><td>车架颜色</td><td>金属灰</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- S700 -->
+        <div class="product-card">
+            <button class="export-btn" onclick="exportPDF()"><i class="fas fa-download"></i> 导出PDF</button>
+            <div class="card-header">
+                <div class="product-image"></div>
+                <div class="model-info">
+                    <h1 class="model-name">S700</h1>
+                    <div class="metric-grid">
+                        <div class="metric-card" style="animation-delay: 0.2s;">
+                            <i class="metric-icon fas fa-tachometer-alt"></i>
+                            <div class="metric-value">45 km/h</div>
+                            <div class="metric-label">最高车速</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.4s;">
+                            <i class="metric-icon fas fa-weight-hanging"></i>
+                            <div class="metric-value">150 kg</div>
+                            <div class="metric-label">最大载重</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.6s;">
+                            <i class="metric-icon fas fa-battery-full"></i>
+                            <div class="metric-value">48V 17.5Ah</div>
+                            <div class="metric-label">电池容量</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.8s;">
+                            <i class="metric-icon fas fa-road"></i>
+                            <div class="metric-value">30-40km</div>
+                            <div class="metric-label">纯电续航</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <h3>阶梯报价 (EXW不含税)</h3>
+                <p>50-300台: ¥4900/台</p>
+                <p>300-1000台: ¥4700/台</p>
+                <p>1000+台: ¥4600/台</p>
+            </div>
+
+            <div class="full-specs">
+                <table class="spec-table">
+                    <tr><td>装柜数量 (20/40/40HQ)</td><td>83/166/200</td></tr>
+                    <tr><td>净重/毛重</td><td>36kg/42kg</td></tr>
+                    <tr><td>外箱尺寸</td><td>1520×310×820mm</td></tr>
+                    <tr><td>电机功率</td><td>750W×2 (瞬时1200W×2)</td></tr>
+                    <tr><td>充电时间</td><td>8小时 (220V)</td></tr>
+                    <tr><td>车架颜色</td><td>棕色</td></tr>
+                    <tr><td>折叠设计</td><td>非折叠车身</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- MX06 -->
+        <div class="product-card">
+            <button class="export-btn" onclick="exportPDF()"><i class="fas fa-download"></i> 导出PDF</button>
+            <div class="card-header">
+                <div class="product-image"></div>
+                <div class="model-info">
+                    <h1 class="model-name">MX06</h1>
+                    <div class="metric-grid">
+                        <div class="metric-card" style="animation-delay: 0.2s;">
+                            <i class="metric-icon fas fa-tachometer-alt"></i>
+                            <div class="metric-value">42 km/h</div>
+                            <div class="metric-label">最高车速</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.4s;">
+                            <i class="metric-icon fas fa-weight-hanging"></i>
+                            <div class="metric-value">150 kg</div>
+                            <div class="metric-label">最大载重</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.6s;">
+                            <i class="metric-icon fas fa-battery-full"></i>
+                            <div class="metric-value">48V 17.5Ah</div>
+                            <div class="metric-label">电池容量</div>
+                        </div>
+                        <div class="metric-card" style="animation-delay: 0.8s;">
+                            <i class="metric-icon fas fa-road"></i>
+                            <div class="metric-value">30-40km</div>
+                            <div class="metric-label">纯电续航</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <h3>阶梯报价 (EXW不含税)</h3>
+                <p>50-300台: ¥4200/台</p>
+                <p>300-1000台: ¥4000/台</p>
+                <p>1000+台: ¥3900/台</p>
+            </div>
+
+            <div class="full-specs">
+                <table class="spec-table">
+                    <tr><td>装柜数量 (20/40/40HQ)</td><td>92/184/216</td></tr>
+                    <tr><td>外箱尺寸</td><td>1500×260×810mm</td></tr>
+                    <tr><td>电机功率</td><td>500W×1 (瞬时1000W)</td></tr>
+                    <tr><td>最大转速</td><td>300 RPM</td></tr>
+                    <tr><td>轮胎材质</td><td>26寸钢圈</td></tr>
+                    <tr><td>折叠设计</td><td>非折叠车身</td></tr>
+                    <tr><td>防水等级</td><td>IP45</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        function exportPDF() {
+            html2canvas(document.body).then(canvas => {
+                const pdf = new jspdf.jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const imgRatio = canvas.width / canvas.height;
+                
+                let imgWidth = pageWidth;
+                let imgHeight = imgWidth / imgRatio;
+                
+                if(imgHeight > pageHeight) {
+                    imgHeight = pageHeight;
+                    imgWidth = imgHeight * imgRatio;
+                }
+
+                pdf.addImage(canvas, 'PNG', 
+                    (pageWidth - imgWidth)/2, 
+                    (pageHeight - imgHeight)/2, 
+                    imgWidth, 
+                    imgHeight
+                );
+                pdf.save('shengmilo-quotation.pdf');
+            });
+        }
+
+        // 初始化动画
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>
